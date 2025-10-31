@@ -31,6 +31,9 @@ export interface GameState {
   gamePhase: 'selection' | 'revealing' | 'result' | 'calaberita';
   currentCalaverita: string | null;
   isLoading: boolean;
+  currentStreak: number;
+  bestStreak: number;
+  streakType: 'player' | 'computer' | 'none';
 }
 
 export interface GameEngine {

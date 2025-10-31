@@ -5,6 +5,7 @@ import { CalaveritaDisplay } from './components/CalaveritaDisplay.js';
 import { GameResultComponent, type GameResultData } from './components/GameResult.js';
 import { HelpButton } from './components/HelpButton.js';
 import { HelpModal } from './components/HelpModal.js';
+import { StreakDisplay, type StreakData } from './components/StreakDisplay.js';
 import { GameEngine } from './services/GameEngine.js';
 import { CalaveritaService } from './services/CalaveritaService.js';
 import { getRandomFallbackCalaverita } from './constants/fallbacks.js';
@@ -23,6 +24,7 @@ class DiaDeMuertosGame {
   private gameResult: GameResultComponent | null = null;
   private helpButton: HelpButton | null = null;
   private helpModal: HelpModal | null = null;
+  private streakDisplay: StreakDisplay | null = null;
   
   private currentPhase: 'selection' | 'revealing' | 'result' = 'selection';
   private selectedCharacter: Character | null = null;
@@ -87,6 +89,18 @@ class DiaDeMuertosGame {
         }
       });
     }
+
+    // Initialize Streak Display
+    const streakContainer = document.getElementById('streak-display');
+    if (streakContainer) {
+      this.streakDisplay = new StreakDisplay(streakContainer, {
+        showAnimations: true,
+        onStreakAchieved: (level) => {
+          console.log(`🔥 ¡Nuevo nivel de racha alcanzado: ${level.displayName}!`);
+          // Aquí se podría mostrar una notificación especial
+        }
+      });
+    }
   }
 
   private setupGameFlow(): void {
@@ -132,8 +146,16 @@ class DiaDeMuertosGame {
         this.gameResult?.displayResult(resultData);
         this.updateGamePhase('result');
         
-        // Scroll to game result section after a brief delay
-        this.scrollToNextSection('game-result', 800);
+        // Update streak display
+        this.updateStreakDisplay();
+        
+        // Scroll to appropriate section based on streak status
+        const hasActiveStreak = this.gameEngine.hasActiveStreak();
+        if (hasActiveStreak) {
+          this.scrollToNextSection('streak-display', 600);
+        } else {
+          this.scrollToNextSection('game-result', 800);
+        }
         
         // Generate victory/defeat calaberita if computer wins
         if (result === GameResult.COMPUTER_WINS) {
@@ -262,6 +284,9 @@ class DiaDeMuertosGame {
     // Generate new selection calaberita
     this.generateSelectionCalaverita();
     
+    // Update streak display (in case streak was broken)
+    this.updateStreakDisplay();
+    
     // Scroll back to character selection for new round
     this.scrollToNextSection('character-selection', 200);
     
@@ -277,6 +302,7 @@ class DiaDeMuertosGame {
     this.characterSelector?.setDisabled(false);
     this.calaveritaDisplay?.clearDisplay();
     this.gameResult?.resetDisplay();
+    this.streakDisplay?.reset();
     
     // Reset game state
     this.selectedCharacter = null;
@@ -284,6 +310,9 @@ class DiaDeMuertosGame {
     
     // Generate initial calaberita
     this.generateSelectionCalaverita();
+    
+    // Update streak display to show reset state
+    this.updateStreakDisplay();
     
     // Scroll back to the top/character selection
     this.scrollToNextSection('character-selection', 200);
@@ -446,6 +475,30 @@ class DiaDeMuertosGame {
 
   public getHelpButton(): HelpButton | null {
     return this.helpButton;
+  }
+
+  /**
+   * Updates the streak display with current game state
+   */
+  private updateStreakDisplay(): void {
+    if (!this.streakDisplay) return;
+
+    const streakData: StreakData = {
+      currentStreak: this.gameEngine.getCurrentStreak(),
+      bestStreak: this.gameEngine.getBestStreak(),
+      isActive: this.gameEngine.hasActiveStreak(),
+      isNewLevel: this.gameEngine.isNewStreakLevel()
+    };
+
+    this.streakDisplay.updateStreak(streakData);
+
+    // Log streak achievements
+    if (streakData.isNewLevel && streakData.isActive) {
+      const level = this.gameEngine.getCurrentStreakLevel();
+      if (level) {
+        console.log(`🔥 ¡Nuevo nivel de racha! ${level.displayName} - ${streakData.currentStreak} victorias seguidas`);
+      }
+    }
   }
 }
 

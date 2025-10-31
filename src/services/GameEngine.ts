@@ -1,6 +1,7 @@
 import { Character, GameResult } from '../types/index.js';
 import type { GameState, GameEngine as IGameEngine } from '../types/index.js';
 import { compareCharacters, generateComputerChoice } from './GameLogic.js';
+import { getStreakLevel, isNewStreakLevel } from '../constants/streaks.js';
 
 export class GameEngine implements IGameEngine {
   public playerChoice: Character | null = null;
@@ -13,7 +14,10 @@ export class GameEngine implements IGameEngine {
     computerScore: 0,
     gamePhase: 'selection',
     currentCalaverita: null,
-    isLoading: false
+    isLoading: false,
+    currentStreak: 0,
+    bestStreak: 0,
+    streakType: 'none'
   };
 
   /**
@@ -33,14 +37,48 @@ export class GameEngine implements IGameEngine {
     this.gameState.currentRound++;
     this.gameState.gamePhase = 'result';
     
-    // Update scores
-    if (this.gameResult === GameResult.PLAYER_WINS) {
-      this.gameState.playerScore++;
-    } else if (this.gameResult === GameResult.COMPUTER_WINS) {
-      this.gameState.computerScore++;
-    }
+    // Update scores and streaks
+    this.updateScoresAndStreaks(this.gameResult);
     
     return this.gameResult;
+  }
+
+  /**
+   * Updates scores and streak system based on game result
+   */
+  private updateScoresAndStreaks(result: GameResult): void {
+    if (result === GameResult.PLAYER_WINS) {
+      this.gameState.playerScore++;
+      
+      // Update player streak
+      if (this.gameState.streakType === 'player') {
+        this.gameState.currentStreak++;
+      } else {
+        this.gameState.currentStreak = 1;
+        this.gameState.streakType = 'player';
+      }
+      
+      // Update best streak if current is higher
+      if (this.gameState.currentStreak > this.gameState.bestStreak) {
+        this.gameState.bestStreak = this.gameState.currentStreak;
+      }
+      
+    } else if (result === GameResult.COMPUTER_WINS) {
+      this.gameState.computerScore++;
+      
+      // Update computer streak (breaks player streak)
+      if (this.gameState.streakType === 'computer') {
+        this.gameState.currentStreak++;
+      } else {
+        this.gameState.currentStreak = 1;
+        this.gameState.streakType = 'computer';
+      }
+      
+    } else {
+      // Tie breaks any streak
+      this.gameState.currentStreak = 0;
+      this.gameState.streakType = 'none';
+    }
   }
 
   /**
@@ -51,13 +89,19 @@ export class GameEngine implements IGameEngine {
     this.computerChoice = null;
     this.gameResult = null;
     
+    // Preserve best streak across game resets
+    const bestStreak = this.gameState.bestStreak;
+    
     this.gameState = {
       currentRound: 0,
       playerScore: 0,
       computerScore: 0,
       gamePhase: 'selection',
       currentCalaverita: null,
-      isLoading: false
+      isLoading: false,
+      currentStreak: 0,
+      bestStreak: bestStreak,
+      streakType: 'none'
     };
   }
 
@@ -108,5 +152,42 @@ export class GameEngine implements IGameEngine {
    */
   setCurrentCalaverita(calaberita: string | null): void {
     this.gameState.currentCalaverita = calaberita;
+  }
+
+  /**
+   * Gets the current player streak
+   */
+  getCurrentStreak(): number {
+    return this.gameState.streakType === 'player' ? this.gameState.currentStreak : 0;
+  }
+
+  /**
+   * Gets the best streak achieved
+   */
+  getBestStreak(): number {
+    return this.gameState.bestStreak;
+  }
+
+  /**
+   * Checks if the current result achieved a new streak level
+   */
+  isNewStreakLevel(): boolean {
+    if (this.gameState.streakType !== 'player') return false;
+    return isNewStreakLevel(this.gameState.currentStreak);
+  }
+
+  /**
+   * Gets the current streak level information
+   */
+  getCurrentStreakLevel() {
+    if (this.gameState.streakType !== 'player') return null;
+    return getStreakLevel(this.gameState.currentStreak);
+  }
+
+  /**
+   * Checks if player has an active streak
+   */
+  hasActiveStreak(): boolean {
+    return this.gameState.streakType === 'player' && this.gameState.currentStreak > 0;
   }
 }
