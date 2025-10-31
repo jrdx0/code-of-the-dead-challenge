@@ -1,0 +1,19 @@
+{
+  "enabled": true,
+  "name": "SVG Character Validator",
+  "description": "Validates SVG files to ensure they have image-rendering: pixelated property, dimensions are multiples of 16px, use Day of the Dead color palette, and generates automatic character previews",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "src/components/*SVG.ts",
+      "src/components/SVGCharacters.ts",
+      "src/typescript.svg",
+      "public/vite.svg"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Please validate the modified SVG files to ensure they meet the following requirements:\n1. Verify that SVG elements have the image-rendering: pixelated CSS property\n2. Check that all dimensions (width, height, viewBox) are multiples of 16px\n3. Validate that colors used match the Day of the Dead palette (traditional oranges, purples, yellows, magentas, and earth tones)\n4. Generate an automatic preview of the characters for visual verification\n5. Report any issues found and suggest corrections if needed\n\nFocus on the SVG content within the TypeScript files and ensure proper Day of the Dead theming compliance."
+  }
+}

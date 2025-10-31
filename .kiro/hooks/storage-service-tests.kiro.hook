@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "StorageService Test Runner",
+  "description": "Executes comprehensive tests for StorageService including data migration simulation, data structure validation, and localStorage unavailability scenarios",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "src/services/StorageService.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Execute comprehensive tests for the StorageService with the following requirements:\n1. Run all existing StorageService tests\n2. Simulate data migration scenarios between different versions\n3. Validate that the data structure is correct and follows expected schema\n4. Test scenarios where localStorage is not available (simulate browser restrictions, private mode, storage quota exceeded)\n5. Verify error handling and fallback mechanisms\n6. Test data integrity during migration processes\n7. Validate backward compatibility with older data formats\n\nPlease provide detailed test results and highlight any issues found."
+  }
+}
