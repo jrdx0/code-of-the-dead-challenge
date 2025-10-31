@@ -13,6 +13,7 @@ Un juego interactivo de piedra, papel o tijeras con temática del Día de los Mu
 - **🎭 Personajes Únicos**: Catrina, Calavera y Mariachi con animaciones personalizadas
 - **📜 Calaberitas Dinámicas**: Poemas generados dinámicamente usando IA (MCP)
 - **🎮 Experiencia Fluida**: Scroll automático y transiciones suaves entre fases del juego
+- **❓ Modal de Ayuda Interactivo**: Botón de ayuda con reglas del juego y explicación de personajes
 - **📱 Diseño Responsivo**: Optimizado para desktop, tablet y móvil
 - **🎵 Temática Cultural**: Celebra la rica tradición mexicana del Día de los Muertos
 
@@ -68,6 +69,8 @@ code-of-the-dead-challenge/
 │   │   ├── CharacterSelector.ts
 │   │   ├── CalaveritaDisplay.ts
 │   │   ├── GameResult.ts
+│   │   ├── HelpButton.ts
+│   │   ├── HelpModal.ts
 │   │   ├── CatrinaSVG.ts
 │   │   ├── CalaveraSVG.ts
 │   │   └── MariachiSVG.ts

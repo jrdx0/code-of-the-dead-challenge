@@ -3,6 +3,8 @@ import { Character, GameResult, type CalaveritaContext } from './types/index.js'
 import { CharacterSelector } from './components/CharacterSelector.js';
 import { CalaveritaDisplay } from './components/CalaveritaDisplay.js';
 import { GameResultComponent, type GameResultData } from './components/GameResult.js';
+import { HelpButton } from './components/HelpButton.js';
+import { HelpModal } from './components/HelpModal.js';
 import { GameEngine } from './services/GameEngine.js';
 import { CalaveritaService } from './services/CalaveritaService.js';
 import { getRandomFallbackCalaverita } from './constants/fallbacks.js';
@@ -19,6 +21,8 @@ class DiaDeMuertosGame {
   private characterSelector: CharacterSelector | null = null;
   private calaveritaDisplay: CalaveritaDisplay | null = null;
   private gameResult: GameResultComponent | null = null;
+  private helpButton: HelpButton | null = null;
+  private helpModal: HelpModal | null = null;
   
   private currentPhase: 'selection' | 'revealing' | 'result' = 'selection';
   private selectedCharacter: Character | null = null;
@@ -60,6 +64,27 @@ class DiaDeMuertosGame {
         onPlayAgain: () => this.startNewRound(),
         onResetGame: () => this.resetGame(),
         showAnimations: true
+      });
+    }
+
+    // Initialize Help Modal
+    const helpModalContainer = document.getElementById('help-modal-container');
+    if (helpModalContainer) {
+      this.helpModal = new HelpModal(helpModalContainer, {
+        onClose: () => {
+          console.log('🎭 Modal de ayuda cerrado');
+        }
+      });
+    }
+
+    // Initialize Help Button
+    const helpButtonContainer = document.getElementById('help-button-container');
+    if (helpButtonContainer) {
+      this.helpButton = new HelpButton(helpButtonContainer, {
+        onClick: () => {
+          console.log('🎭 Botón de ayuda presionado');
+          this.helpModal?.show();
+        }
       });
     }
   }
@@ -413,6 +438,14 @@ class DiaDeMuertosGame {
 
   public getSelectedCharacter(): Character | null {
     return this.selectedCharacter;
+  }
+
+  public getHelpModal(): HelpModal | null {
+    return this.helpModal;
+  }
+
+  public getHelpButton(): HelpButton | null {
+    return this.helpButton;
   }
 }
 
