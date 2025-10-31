@@ -1,0 +1,47 @@
+# Configuración de Bun para el proyecto Día de los Muertos
+
+[install]
+# Configuración de instalación de paquetes
+cache = true
+exact = false
+production = false
+optional = true
+dev = true
+peer = true
+
+# Registry configuration
+registry = "https://registry.npmjs.org"
+
+# Lockfile configuration
+lockfile = true
+save-lockfile = true
+
+[install.scopes]
+# Configuración de scopes específicos si es necesario
+# "@company" = "https://npm.company.com"
+
+[run]
+# Configuración para bun run
+shell = "bash"
+
+# Variables de entorno por defecto
+[run.env]
+NODE_ENV = "development"
+FORCE_COLOR = "1"
+
+[test]
+# Configuración para testing (si se implementa en el futuro)
+preload = []
+coverage = false
+
+[build]
+# Configuración de build
+target = "browser"
+format = "esm"
+splitting = true
+minify = true
+
+[dev]
+# Configuración para desarrollo
+port = 3000
+hot = true

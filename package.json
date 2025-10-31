@@ -1,0 +1,41 @@
+{
+  "name": "code-of-the-dead-challenge",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Juego interactivo de piedra, papel o tijeras con temática del Día de los Muertos mexicano",
+  "keywords": ["game", "dia-de-muertos", "pixel-art", "typescript", "vite", "bun"],
+  "author": "Tu Nombre",
+  "license": "MIT",
+  "engines": {
+    "bun": ">=1.0.0",
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write src/",
+    "format:check": "prettier --check src/",
+    "lint": "tsc --noEmit --strict",
+    "analyze": "bun run build && bun x vite-bundle-analyzer",
+    "serve": "bun run preview",
+    "start": "bun run dev"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vite": "^7.1.7",
+    "prettier": "^3.0.0"
+  },
+  "optionalDependencies": {
+    "vite-bundle-analyzer": "^0.7.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
+}

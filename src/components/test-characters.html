@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test SVG Characters</title>
+    <style>
+        body {
+            background: #2C3E50;
+            color: #FDF2E9;
+            font-family: 'Courier New', monospace;
+            padding: 2rem;
+        }
+        
+        .character-container {
+            display: inline-block;
+            margin: 1rem;
+            padding: 1rem;
+            border: 2px solid #F1C40F;
+            border-radius: 8px;
+            text-align: center;
+            background: rgba(253, 242, 233, 0.1);
+        }
+        
+        .character-container:hover {
+            background: rgba(253, 242, 233, 0.2);
+            transform: scale(1.05);
+        }
+        
+        svg {
+            shape-rendering: crispEdges;
+            image-rendering: pixelated;
+        }
+        
+        h3 {
+            margin: 0.5rem 0 0 0;
+            color: #FF6B35;
+        }
+    </style>
+</head>
+<body>
+    <h1>Día de los Muertos - Pixel Art Characters</h1>
+    
+    <div class="character-container">
+        <svg width="128" height="192" viewBox="0 0 128 192" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" class="catrina-svg pixel-art">
+            <!-- La Catrina SVG content would be inserted here by JavaScript -->
+        </svg>
+        <h3>La Catrina</h3>
+        <p>Elegante dama de la muerte</p>
+    </div>
+    
+    <div class="character-container">
+        <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" class="calavera-svg pixel-art">
+            <!-- La Calavera SVG content would be inserted here by JavaScript -->
+        </svg>
+        <h3>La Calavera</h3>
+        <p>Cráneo festivo y colorido</p>
+    </div>
+    
+    <div class="character-container">
+        <svg width="128" height="192" viewBox="0 0 128 192" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges" class="mariachi-svg pixel-art">
+            <!-- El Mariachi SVG content would be inserted here by JavaScript -->
+        </svg>
+        <h3>El Mariachi Muerto</h3>
+        <p>Músico del más allá</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "poetry-generator": {
+      "command": "uvx",
+      "args": ["fastmcp-poetry@latest"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR",
+        "LANGUAGE": "es",
+        "THEME": "dia-de-muertos"
+      },
+      "disabled": false,
+      "autoApprove": ["generate_poem", "generate_verse"]
+    }
+  }
+}
