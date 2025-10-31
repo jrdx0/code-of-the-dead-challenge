@@ -2405,6 +2405,18 @@ html {
   border-color: var(--accent-gold);
 }
 
+.reset-stats-button {
+  background: #e74c3c;
+  border-color: #c0392b;
+  font-size: 0.9rem;
+  padding: 0.6rem 1rem;
+}
+
+.reset-stats-button:hover {
+  background: #c0392b;
+  border-color: var(--pixel-white);
+}
+
 /* Responsive adjustments for GameResult */
 @media (max-width: 768px) {
   .battle-display {
@@ -3265,6 +3277,44 @@ Streak Display Styles */
 
 .best-emoji {
   font-size: 1.1rem;
+}
+
+/* Streak Statistics */
+.streak-stats {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--accent-gold);
+  gap: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  color: var(--text-cream);
+  font-family: var(--pixel-font-body);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+.stat-value {
+  font-size: 1rem;
+  color: var(--accent-gold);
+  font-family: var(--pixel-font-headers);
+  font-weight: bold;
+  text-shadow: 1px 1px 0px var(--pixel-black);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
 }
 
 /* Celebration Particles */

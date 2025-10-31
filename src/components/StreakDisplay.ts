@@ -16,6 +16,9 @@ export interface StreakData {
   bestStreak: number;
   isActive: boolean;
   isNewLevel?: boolean;
+  totalGames?: number;
+  totalWins?: number;
+  winRate?: number;
 }
 
 export class StreakDisplay {
@@ -77,6 +80,21 @@ export class StreakDisplay {
           <span class="best-number">0</span>
           <span class="best-emoji">👑</span>
         </div>
+
+        <div class="streak-stats">
+          <div class="stat-item">
+            <span class="stat-label">Partidas:</span>
+            <span class="stat-value total-games">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Victorias:</span>
+            <span class="stat-value total-wins">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">% Éxito:</span>
+            <span class="stat-value win-rate">0%</span>
+          </div>
+        </div>
       </div>
     `;
   }
@@ -95,15 +113,27 @@ export class StreakDisplay {
     streakNumber.textContent = data.currentStreak.toString();
     bestNumber.textContent = data.bestStreak.toString();
 
-    // Show/hide streak display
-    if (data.isActive && data.currentStreak > 0) {
+    // Update persistent statistics
+    this.updateStats(data);
+
+    // Always show streak display if there are any games played
+    const hasPlayedGames = (data.totalGames && data.totalGames > 0) || data.bestStreak > 0;
+    
+    if (hasPlayedGames) {
       this.show();
-      this.updateStreakLevel(data.currentStreak);
-      this.updateProgress(data.currentStreak);
       
-      // Trigger celebration if new level achieved
-      if (data.isNewLevel && this.options.showAnimations) {
-        this.triggerCelebration();
+      if (data.isActive && data.currentStreak > 0) {
+        this.updateStreakLevel(data.currentStreak);
+        this.updateProgress(data.currentStreak);
+        
+        // Trigger celebration if new level achieved
+        if (data.isNewLevel && this.options.showAnimations) {
+          this.triggerCelebration();
+        }
+      } else {
+        // Show default state when no active streak
+        this.updateStreakLevel(0);
+        this.updateProgress(0);
       }
     } else {
       this.hide();
@@ -112,6 +142,24 @@ export class StreakDisplay {
     // Update animations
     if (this.options.showAnimations && data.isActive) {
       this.addStreakAnimation();
+    }
+  }
+
+  private updateStats(data: StreakData): void {
+    const totalGamesElement = this.container.querySelector('.total-games') as HTMLElement;
+    const totalWinsElement = this.container.querySelector('.total-wins') as HTMLElement;
+    const winRateElement = this.container.querySelector('.win-rate') as HTMLElement;
+
+    if (totalGamesElement && data.totalGames !== undefined) {
+      totalGamesElement.textContent = data.totalGames.toString();
+    }
+
+    if (totalWinsElement && data.totalWins !== undefined) {
+      totalWinsElement.textContent = data.totalWins.toString();
+    }
+
+    if (winRateElement && data.winRate !== undefined) {
+      winRateElement.textContent = `${data.winRate}%`;
     }
   }
 

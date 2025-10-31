@@ -14,7 +14,7 @@ Un juego interactivo de piedra, papel o tijeras con temática del Día de los Mu
 - **📜 Calaberitas Dinámicas**: Poemas generados dinámicamente usando IA (MCP)
 - **🎮 Experiencia Fluida**: Scroll automático y transiciones suaves entre fases del juego
 - **❓ Modal de Ayuda Interactivo**: Botón de ayuda con reglas del juego y explicación de personajes
-- **🔥 Sistema de Rachas**: Recompensas y celebraciones por victorias consecutivas
+- **🔥 Sistema de Rachas Persistente**: Recompensas y estadísticas que se guardan automáticamente
 - **📱 Diseño Responsivo**: Optimizado para desktop, tablet y móvil
 - **🎵 Temática Cultural**: Celebra la rica tradición mexicana del Día de los Muertos
 
@@ -80,7 +80,8 @@ code-of-the-dead-challenge/
 │   │   ├── GameEngine.ts
 │   │   ├── GameLogic.ts
 │   │   ├── CalaveritaService.ts
-│   │   └── MCPService.ts
+│   │   ├── MCPService.ts
+│   │   └── StorageService.ts
 │   ├── constants/          # Constantes y datos
 │   │   ├── characters.ts
 │   │   ├── fallbacks.ts

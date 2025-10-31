@@ -65,6 +65,7 @@ class DiaDeMuertosGame {
       this.gameResult = new GameResultComponent(gameResultContainer, {
         onPlayAgain: () => this.startNewRound(),
         onResetGame: () => this.resetGame(),
+        onResetStats: () => this.resetAllStats(),
         showAnimations: true
       });
     }
@@ -100,6 +101,9 @@ class DiaDeMuertosGame {
           // Aquí se podría mostrar una notificación especial
         }
       });
+      
+      // Show initial streak display with persistent data
+      this.updateStreakDisplay();
     }
   }
 
@@ -478,16 +482,50 @@ class DiaDeMuertosGame {
   }
 
   /**
+   * Resets all statistics and streak data
+   */
+  private resetAllStats(): void {
+    // Reset all data in the game engine
+    this.gameEngine.resetAllData();
+    
+    // Reset all components
+    this.characterSelector?.updateSelection(null);
+    this.characterSelector?.setDisabled(false);
+    this.calaveritaDisplay?.clearDisplay();
+    this.gameResult?.resetDisplay();
+    this.streakDisplay?.reset();
+    
+    // Reset game state
+    this.selectedCharacter = null;
+    this.updateGamePhase('selection');
+    
+    // Generate initial calaberita
+    this.generateSelectionCalaverita();
+    
+    // Update streak display to show reset state
+    this.updateStreakDisplay();
+    
+    // Scroll back to character selection
+    this.scrollToNextSection('character-selection', 200);
+    
+    console.log('🗑️ Todas las estadísticas han sido reiniciadas');
+  }
+
+  /**
    * Updates the streak display with current game state
    */
   private updateStreakDisplay(): void {
     if (!this.streakDisplay) return;
 
+    const gameStats = this.gameEngine.getGameStats();
     const streakData: StreakData = {
       currentStreak: this.gameEngine.getCurrentStreak(),
       bestStreak: this.gameEngine.getBestStreak(),
       isActive: this.gameEngine.hasActiveStreak(),
-      isNewLevel: this.gameEngine.isNewStreakLevel()
+      isNewLevel: this.gameEngine.isNewStreakLevel(),
+      totalGames: gameStats.totalGamesPlayed,
+      totalWins: gameStats.totalWins,
+      winRate: gameStats.winRate
     };
 
     this.streakDisplay.updateStreak(streakData);

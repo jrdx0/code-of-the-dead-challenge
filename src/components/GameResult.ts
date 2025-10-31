@@ -12,6 +12,7 @@ import { CatrinaSVG, CalaveraSVG, MariachiSVG } from './SVGCharacters.js';
 export interface GameResultOptions {
   onPlayAgain?: () => void;
   onResetGame?: () => void;
+  onResetStats?: () => void;
   showAnimations?: boolean;
 }
 
@@ -134,6 +135,9 @@ export class GameResultComponent {
           <button class="reset-game-button">
             🔄 Reiniciar Juego
           </button>
+          <button class="reset-stats-button" title="Reiniciar todas las estadísticas y rachas">
+            🗑️ Borrar Estadísticas
+          </button>
         </div>
       </div>
     `;
@@ -144,6 +148,7 @@ export class GameResultComponent {
   private attachEventListeners(): void {
     const playAgainButton = this.container.querySelector('.play-again-button') as HTMLButtonElement;
     const resetGameButton = this.container.querySelector('.reset-game-button') as HTMLButtonElement;
+    const resetStatsButton = this.container.querySelector('.reset-stats-button') as HTMLButtonElement;
 
     if (playAgainButton && this.options.onPlayAgain) {
       playAgainButton.addEventListener('click', () => {
@@ -166,6 +171,21 @@ export class GameResultComponent {
         }, 150);
         
         this.options.onResetGame?.();
+      });
+    }
+
+    if (resetStatsButton && this.options.onResetStats) {
+      resetStatsButton.addEventListener('click', () => {
+        // Confirm before resetting stats
+        if (confirm('¿Estás seguro de que quieres borrar todas las estadísticas y rachas? Esta acción no se puede deshacer.')) {
+          // Add visual feedback for button click
+          resetStatsButton.style.transform = 'translateY(2px)';
+          setTimeout(() => {
+            resetStatsButton.style.transform = '';
+          }, 150);
+          
+          this.options.onResetStats?.();
+        }
       });
     }
   }

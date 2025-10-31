@@ -1,15 +1,19 @@
 {
-  "mcpServers": {
-    "poetry-generator": {
-      "command": "uvx",
-      "args": ["fastmcp-poetry@latest"],
-      "env": {
-        "FASTMCP_LOG_LEVEL": "ERROR",
-        "LANGUAGE": "es",
-        "THEME": "dia-de-muertos"
-      },
-      "disabled": false,
-      "autoApprove": ["generate_poem", "generate_verse"]
+    "mcpServers": {
+        "calaberita-generator": {
+            "command": "python3",
+            "args": [
+                "mcp_calaberita_server.py"
+            ],
+            "env": {
+                "PYTHONPATH": ".",
+                "LANGUAGE": "es",
+                "THEME": "dia-de-muertos"
+            },
+            "disabled": false,
+            "autoApprove": [
+                "generate_calaberita"
+            ]
+        }
     }
-  }
 }
